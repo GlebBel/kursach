@@ -1,0 +1,33 @@
+{
+  "name": "video_server",
+  "version": "1.0.0",
+  "description": "newVideoServer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "MINIO_END_POINT='10.0.2.15' MINIO_ACCESS_KEY='5RDDUID12UIUN54HPHEB' MINIO_SECRET_KEY='KIoKB7qxediSCNPzd+fd87qhPNofzu7iDj6J2e4I' POSTGRESS_URL='postgres://kbpculma:hWYzvYZKsPHlenWYlKlZJy2b7Ipx_S2k@manny.db.elephantsql.com:5432/kbpculma' PORT=3000 MINIO_PORT=9000 node ./src/index.js",
+    "start:dev": "nodenv -f .",
+    "start:prod": "node ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://VladislavSokolovsky@bitbucket.org/alacritylab/newvideoserver.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/alacritylab/newvideoserver#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "bunyan": "^1.8.12",
+    "bunyan-prettystream": "^0.1.3",
+    "express": "^4.16.4",
+    "http-status": "^1.3.1",
+    "joi": "^14.3.0",
+    "minio": "^7.0.2",
+    "pg": "^7.7.1",
+    "pg-hstore": "^2.3.2",
+    "sequelize": "^4.41.2",
+    "swagger-jsdoc": "^3.2.6",
+    "swagger-ui-express": "^4.0.2"
+  }
+}
