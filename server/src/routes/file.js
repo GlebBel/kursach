@@ -40,7 +40,7 @@ app.get('/getAll', Actions.getAll);
 *       404:
 *         description: "Order ID not found"
 */
-app.get('/:orderID', Actions.downloadFolder);
+app.get('/:name', Actions.downloadFolder);
 
 /**
 * @swagger
@@ -66,7 +66,7 @@ app.get('/:orderID', Actions.downloadFolder);
 *         description: "Order ID not found"
 */
 
-app.delete('/:orderID', Actions.deleteFolder);
+app.delete('/:name', Actions.deleteFolder);
 
 /**
 * @swagger

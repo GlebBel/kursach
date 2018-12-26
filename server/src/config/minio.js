@@ -25,7 +25,6 @@ poller.on('notification', record => {
             Folder.findOne({ where: { name: record.s3.object.key } }).then(folder => {
                 if (!folder) throw new Error('no file');
                 folder.downloadURL = presignedUrl;
-                folder.status = 1
                 folder.save().then(() => { console.log('done!') });
             })
         } catch (err) {

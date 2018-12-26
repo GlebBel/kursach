@@ -16,6 +16,7 @@
         function upload() {
             [$('#selector')[0].files].forEach(fileObj => {
                 var file = fileObj[0]
+                console.log(file)
                 // Retrieve a URL from our server.
                 retrieveNewURL(file, url => {
                     // Upload the file to the server.
