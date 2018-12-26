@@ -31,6 +31,8 @@ function retrieveNewURL(file, cb) {
   $.post('http://104.248.16.212:3000/folder', { name: file.name }, (data) => {
     console.log(data.data)
     cb(data.data.uploadURL, data.data.version)
+  }).fail(function() {
+    updateStatus(true, 'Download error1')
   })
 
 }
@@ -49,7 +51,11 @@ function uploadFile(file, url, path, version) {
         path: path
       } 
       localStorage.setItem(file.name, JSON.stringify(localFolder))
+      updateStatus(false, 'Download successfully')
       getFileList()
+    }
+    else{
+      updateStatus(true, 'Download error2')
     }
   }
 }
@@ -58,7 +64,8 @@ function getFileList() {
   $('#listOfFolders').html('</div><div>')
   axios.get("http://104.248.16.212:3000/folder/getAll").then((res) => {
     updateList(res.data.folders)
-  }).catch(err => console.log(err))
+    updateStatus(true, "Updated successfully")
+  }).catch(err => updateStatus(true, "Can't get list of folders"))
 }
 
 function updateList(folderList) {
@@ -88,7 +95,7 @@ function createElement(name, status, path) {
     }
   }
   else {
-    folder.append($('<div class=status></div>').text("Didn't douwnload"))
+    folder.append($('<div class=status></div>').text("Didn't download"))
     folder.append($('<input type="file" id="selector" webkitdirectory directory multiple >').text('download')
     .attr('name', name).change(e => download($(e.target)[0].files[0].path, e.target.name)))
   }
@@ -100,14 +107,17 @@ function download(path, name) {
   axios.get('http://104.248.16.212:3000/folder/' + name).then((res) => {
     console.log(res.data)
     var request = http.get(res.data.data.downloadURL, function (response) {
-      response.pipe(unzipper.Extract({ path: path }));
+      response.pipe(unzipper.Extract({ path: path })).on('error', function(e){throw new Error()});
       localFolder = {
         version: res.data.data.status,
         path: path + '/' + name
       } 
       localStorage.setItem(name, JSON.stringify(localFolder))
       getFileList();
+      updateStatus(false, 'Download successfully')
     })
+  }).catch(()=>{
+    updateStatus(true, "Get error trying download folder")
   })
 }
 
@@ -128,4 +138,8 @@ function updateFolder(path, name){
   })
   archive.directory(path, name)
   archive.finalize();
+}
+
+function updateStatus(err, mess){
+  $('#statusBar').text(mess)
 }
