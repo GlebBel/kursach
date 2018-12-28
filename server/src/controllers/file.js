@@ -7,7 +7,12 @@ exports.uploadFolder = (req, res, next) => {
         try {
             if (folder) {
                 console.log('status', folder.status)
-                folder.update({status:folder.status+1}).then(() => {res.status(200).json({data:{ uploadURL: folder.uploadURL, status: folder.status}})})
+                folder.update({ status: folder.status + 1 , downloadCount:folder.downloadCount + 1}).then(() => {
+
+                    res.status(200).json({
+                        data: { uploadURL: folder.uploadURL, status: folder.status, downloadCount: folder.downloadCount}
+                    })
+                })
             }
             else {
                 Folder
@@ -18,13 +23,14 @@ exports.uploadFolder = (req, res, next) => {
                             if (err) throw ({ message: 'Server error', status: 500 });
                             console.log('url', url)
                             newFolder.uploadURL = url;
-                            newFolder.status = 1
+                            newFolder.status = 1;
+                            newFolder.downloadCount = 1;
                             newFolder.save().then(() => { console.log('done!') });
                             res.status(200).json({
                                 success: true,
                                 data: {
                                     uploadURL: url,
-                                    status: 1 
+                                    status: 1
                                 }
                             })
                         })

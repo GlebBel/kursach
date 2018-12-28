@@ -74,20 +74,21 @@ function updateList(folderList) {
     if (localFolder) {
       const parsed = JSON.parse(localFolder)
       console.log(parsed.version, folder.status)
-      $('#listOfFolders').append(createElement(folder.name, parsed.version === folder.status, parsed.path))
+      $('#listOfFolders').append(createElement(folder.name, parsed.version === folder.status, parsed.path, folder.count))
     }else{
       $('#listOfFolders').append(createElement(folder.name))
     }
   })
   console.log($('#listOfFolders'))
 }
-function createElement(name, status, path) {
+function createElement(name, status, path, count) {
 
   let folder = $('<div class=folder></div>')
   folder.append($('<div class=name></div>').text(name))
   if (path) {
     folder.append($('<div class=status></div>').text(status ? 'latest verson': 'Can be update'))
     folder.append($('<div class=path></div>').text(path))
+    folder.append($('<div class=path></div>').text(count))
     folder.append($('<button ></button>').text("open").click((e)=>shell.openItem(path)))
     folder.append($('<button></button>').text("upload").click(() => updateFolder(path, name)))
     if(status){
