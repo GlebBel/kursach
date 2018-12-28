@@ -73,8 +73,8 @@ function updateList(folderList) {
     const localFolder = localStorage.getItem(folder.name);
     if (localFolder) {
       const parsed = JSON.parse(localFolder)
-      console.log(parsed.version, folder.status)
-      $('#listOfFolders').append(createElement(folder.name, parsed.version === folder.status, parsed.path, folder.count))
+      console.log(parsed.version, folder)
+      $('#listOfFolders').append(createElement(folder.name, parsed.version === folder.status, parsed.path, folder.downloadCount))
     }else{
       $('#listOfFolders').append(createElement(folder.name))
     }
@@ -82,7 +82,7 @@ function updateList(folderList) {
   console.log($('#listOfFolders'))
 }
 function createElement(name, status, path, count) {
-
+  console.log(count,'count')
   let folder = $('<div class=folder></div>')
   folder.append($('<div class=name></div>').text(name))
   if (path) {
