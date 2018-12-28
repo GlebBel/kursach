@@ -30,7 +30,7 @@ $('#updateList').click(() => {
 function retrieveNewURL(file, cb) {
   $.post('http://104.248.16.212:3000/folder', { name: file.name }, (data) => {
     console.log(data.data)
-    cb(data.data.uploadURL, data.data.version)
+    cb(data.data.uploadURL, data.data.status)
   }).fail(function() {
     updateStatus(true, 'Download error1')
   })
@@ -73,8 +73,8 @@ function updateList(folderList) {
     const localFolder = localStorage.getItem(folder.name);
     if (localFolder) {
       const parsed = JSON.parse(localFolder)
-      console.log(parsed.version, folder.version)
-      $('#listOfFolders').append(createElement(folder.name, parsed.version === folder.version, parsed.path))
+      console.log(parsed.version, folder.status)
+      $('#listOfFolders').append(createElement(folder.name, parsed.version === folder.status, parsed.path))
     }else{
       $('#listOfFolders').append(createElement(folder.name))
     }
@@ -121,7 +121,7 @@ function download(path, name) {
   })
 }
 
-function updateFolder(path, name){
+function updateFolder(path, name, version){
   var archive = archiver('zip');
   var bufs = [];
 

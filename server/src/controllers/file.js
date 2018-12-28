@@ -24,6 +24,7 @@ exports.uploadFolder = (req, res, next) => {
                                 success: true,
                                 data: {
                                     uploadURL: url,
+                                    status: 1 
                                 }
                             })
                         })
